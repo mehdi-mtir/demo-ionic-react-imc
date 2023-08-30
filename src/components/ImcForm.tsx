@@ -1,7 +1,21 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow , InputCustomEvent} from "@ionic/react";
 import {calculatorOutline, refreshOutline} from 'ionicons/icons';
+import { useState } from "react";
 
-const ImcForm : React.FC = ()=>{
+interface ImcFormProps {
+  imcHandler : (imc :number)=> void
+}
+
+const ImcForm : React.FC<ImcFormProps> = (props : ImcFormProps)=>{
+  const [poids, setPoids] = useState<number | null>(null);
+  const [taille, setTaille] = useState<number | null>(null);
+  const calculerImc = ()=>{
+    if(poids === null || taille === null)
+      return;
+
+    const newImc = (poids / (taille * taille));
+    props.imcHandler(newImc);
+  }
   return (
     <IonCard>
               <IonCardHeader>
@@ -13,7 +27,14 @@ const ImcForm : React.FC = ()=>{
                     <IonCol>
                       <IonItem>
                         <IonLabel position='floating'>Poids en Kg</IonLabel>
-                        <IonInput type='number'></IonInput>
+                        <IonInput
+                          type='number'
+                          value={poids}
+                          onIonInput={
+                            (event : InputCustomEvent)=>{
+                              setPoids(+(event?.target?.value as string))
+                            }
+                          }></IonInput>
                       </IonItem>
                     </IonCol>
                   </IonRow>
@@ -21,7 +42,14 @@ const ImcForm : React.FC = ()=>{
                     <IonCol>
                       <IonItem>
                         <IonLabel position='floating'>Taille en metre</IonLabel>
-                        <IonInput type='number'></IonInput>
+                        <IonInput
+                         type='number'
+                         value={taille}
+                         onIonInput={
+                          (event : InputCustomEvent)=>{
+                            setTaille(+(event?.target?.value as string))
+                          }
+                        }></IonInput>
                       </IonItem>
                     </IonCol>
                   </IonRow>
@@ -30,7 +58,8 @@ const ImcForm : React.FC = ()=>{
                       <IonButton
                         size="large"
                         expand="block"
-                        color="secondary">
+                        color="secondary"
+                        onClick={calculerImc}>
                         <IonIcon
                            slot="start" icon={calculatorOutline}/>
                         Calculer

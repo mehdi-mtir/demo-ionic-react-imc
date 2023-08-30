@@ -1,7 +1,9 @@
 import { IonCard, IonCardTitle, IonCardHeader, IonCardContent } from "@ionic/react";
+interface ImcResultProps{
+  imcValue : number;
+}
 
-
-const ImcResult : React.FC = ()=>{
+const ImcResult : React.FC<ImcResultProps> = (props)=>{
 
   return(
     <IonCard>
@@ -9,7 +11,7 @@ const ImcResult : React.FC = ()=>{
         <IonCardTitle>Résultat</IonCardTitle>
       </IonCardHeader>
       <IonCardContent>
-        Votre IMC est : ....
+        Votre IMC est : {props.imcValue.toFixed(2)}
       </IonCardContent>
     </IonCard>
   );

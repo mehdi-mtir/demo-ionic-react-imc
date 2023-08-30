@@ -20,11 +20,20 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import ImcForm from './components/ImcForm';
 import ImcResult from './components/ImcResult';
+import { useState } from 'react';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
+const App: React.FC = () => {
+  const [imc, setImc] = useState<number | null>(null);
+
+  const setImcValue = (newImcValue:number)=>{
+    if(newImcValue <= 0 )
+      return;
+    else
+      setImc(newImcValue);
+  }
+  return(<IonApp>
     <IonHeader>
       <IonToolbar color="primary">
         <IonTitle>Calculateur d'IMC</IonTitle>
@@ -34,17 +43,20 @@ const App: React.FC = () => (
       <IonGrid>
         <IonRow>
           <IonCol>
-            <ImcForm />
+            <ImcForm imcHandler={setImcValue} />
           </IonCol>
         </IonRow>
-        <IonRow>
+        {
+          !!imc && <IonRow>
           <IonCol>
-            <ImcResult />
+            <ImcResult imcValue={imc} />
           </IonCol>
         </IonRow>
+        }
       </IonGrid>
     </IonContent>
   </IonApp>
 );
+};
 
 export default App;
