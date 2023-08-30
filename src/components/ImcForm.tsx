@@ -3,7 +3,7 @@ import {calculatorOutline, refreshOutline} from 'ionicons/icons';
 import { useState } from "react";
 
 interface ImcFormProps {
-  imcHandler : (imc :number)=> void
+  imcHandler : (imc :number | null)=> void
 }
 
 const ImcForm : React.FC<ImcFormProps> = (props : ImcFormProps)=>{
@@ -66,7 +66,13 @@ const ImcForm : React.FC<ImcFormProps> = (props : ImcFormProps)=>{
                       </IonButton>
                     </IonCol>
                     <IonCol size="12" sizeMd="6" className="ion-text-center">
-                    <IonButton fill="clear" >
+                    <IonButton
+                      fill="clear"
+                      onClick={()=>{
+                        setPoids(null);
+                        setTaille(null);
+                        props.imcHandler(null);
+                      }} >
                         <IonIcon  slot="start" icon={refreshOutline}/>
                         Réinitialiser
                       </IonButton>

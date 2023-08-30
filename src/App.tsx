@@ -27,11 +27,10 @@ setupIonicReact();
 const App: React.FC = () => {
   const [imc, setImc] = useState<number | null>(null);
 
-  const setImcValue = (newImcValue:number)=>{
-    if(newImcValue <= 0 )
-      return;
-    else
+  const setImcValue = (newImcValue:number | null)=>{
+    if(newImcValue===null || newImcValue > 0 )
       setImc(newImcValue);
+
   }
   return(<IonApp>
     <IonHeader>
